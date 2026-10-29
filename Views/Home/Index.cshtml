@@ -1,0 +1,6 @@
+﻿@using System.Security.Claims
+@{
+    ViewData["Title"] = "Inicio";
+}
+<h1 class="h3">Hola, @User.FindFirstValue("NombreCompleto")</h1>
+<p class="text-muted">Panel de Genba Studio.</p>
