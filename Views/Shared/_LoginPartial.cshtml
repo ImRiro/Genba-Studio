@@ -1,0 +1,29 @@
+@using System.Security.Claims
+
+@if (User.Identity?.IsAuthenticated == true)
+{
+    var avatar = User.FindFirstValue("Avatar") ?? "/img/avatar-default.svg";
+    var nombre = User.FindFirstValue("NombreCompleto") ?? User.Identity.Name;
+
+    <ul class="navbar-nav align-items-lg-center">
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-2" asp-controller="Perfil" asp-action="Index">
+                <img src="@avatar" alt="" class="rounded-circle" style="width:28px;height:28px;object-fit:cover" />
+                <span>@nombre</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                <button type="submit" class="nav-link btn btn-link">Salir</button>
+            </form>
+        </li>
+    </ul>
+}
+else
+{
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Account" asp-action="Login">Ingresar</a>
+        </li>
+    </ul>
+}
