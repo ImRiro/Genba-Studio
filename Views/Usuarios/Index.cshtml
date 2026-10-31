@@ -1,0 +1,80 @@
+@model GenbaStudio.Models.ViewModels.UsuariosIndexViewModel
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{
+    ViewData["Title"] = "Usuarios";
+}
+
+<partial name="_Alerts" />
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Usuarios</h1>
+    <a asp-action="Create" class="btn btn-primary">Nuevo usuario</a>
+</div>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-6">
+        <input name="q" value="@Model.Q" class="form-control" placeholder="Buscar por nombre, email o especialidad" />
+    </div>
+    <div class="col-md-3">
+        <select name="rol" class="form-select" asp-items="@(new SelectList(GenbaStudio.Models.Enums.Roles.Todos, Model.Rol))">
+            <option value="">Todos los roles</option>
+        </select>
+    </div>
+    <div class="col-md-3 d-flex gap-2">
+        <button type="submit" class="btn btn-outline-secondary">Filtrar</button>
+        <a asp-action="Index" class="btn btn-link">Limpiar</a>
+    </div>
+</form>
+
+<div class="table-responsive">
+    <table class="table table-hover align-middle">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Especialidad</th>
+                <th class="text-end">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var u in Model.Resultado.Items)
+            {
+                <tr>
+                    <td style="width:48px">
+                        <img src="@(string.IsNullOrEmpty(u.Avatar) ? "/img/avatar-default.svg" : u.Avatar)" alt=""
+                             class="rounded-circle" style="width:36px;height:36px;object-fit:cover" />
+                    </td>
+                    <td>@u.NombreCompleto</td>
+                    <td>@u.Email</td>
+                    <td><span class="badge text-bg-secondary">@u.Rol</span></td>
+                    <td>@(u.Especialidad ?? "—")</td>
+                    <td class="text-end">
+                        <a asp-action="Edit" asp-route-id="@u.Id" class="btn btn-sm btn-outline-primary">Editar</a>
+                        <a asp-action="Delete" asp-route-id="@u.Id" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                    </td>
+                </tr>
+            }
+            @if (!Model.Resultado.Items.Any())
+            {
+                <tr><td colspan="6" class="text-center text-muted py-4">No hay usuarios que coincidan.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<p>Página @Model.Resultado.Page de @Model.Resultado.TotalPages (@Model.Resultado.TotalCount usuarios)</p>
+
+@if (Model.Resultado.Page > 1)
+{
+    <a asp-action="Index" asp-route-page="@(Model.Resultado.Page - 1)"
+       asp-route-q="@Model.Q" asp-route-rol="@Model.Rol"
+       class="btn btn-outline-secondary btn-sm">Anterior</a>
+}
+@if (Model.Resultado.Page < Model.Resultado.TotalPages)
+{
+    <a asp-action="Index" asp-route-page="@(Model.Resultado.Page + 1)"
+       asp-route-q="@Model.Q" asp-route-rol="@Model.Rol"
+       class="btn btn-outline-secondary btn-sm">Siguiente</a>
+}

@@ -26,7 +26,8 @@
 
                         @if (User.IsInRole(Roles.Administrador))
                         {
-                            @* TODO: Usuarios, Tipos de tarea *@
+                            <li class="nav-item"><a class="nav-link" asp-controller="Usuarios" asp-action="Index">Usuarios</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="TiposTarea" asp-action="Index">Tipos de Tarea</a></li>
                         }
                         @if (User.IsInRole(Roles.Director))
                         {

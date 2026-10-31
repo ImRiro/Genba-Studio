@@ -34,6 +34,15 @@ public static class DbSeeder
             await CrearUsuarioAsync(users, "director@genba.test", password, "Dana", "Director", null, Roles.Director);
             await CrearUsuarioAsync(users, "animador1@genba.test", password, "Lucas", "Animador", "Cleanup", Roles.Animador);
             await CrearUsuarioAsync(users, "animador2@genba.test", password, "Mia", "Animador", "Color", Roles.Animador);
+            await CrearUsuarioAsync(users, "animador3@genba.test", password, "Sara", "Animador", "Layout", Roles.Animador);
+            await CrearUsuarioAsync(users, "animador4@genba.test", password, "Mateo", "Animador", "Key Animation", Roles.Animador);
+            await CrearUsuarioAsync(users, "animador5@genba.test", password, "Alicia", "Animador", "Inbetween", Roles.Animador);
+            await CrearUsuarioAsync(users, "animador6@genba.test", password, "Noah", "Animador", "Compositing", Roles.Animador);
+            await CrearUsuarioAsync(users, "animador7@genba.test", password, "Elena", "Animador", "Cleanup", Roles.Animador);
+            await CrearUsuarioAsync(users, "animador8@genba.test", password, "Pablo", "Animador", "Color", Roles.Animador);
+            await CrearUsuarioAsync(users, "animador9@genba.test", password, "Leona", "Animador", "Layout", Roles.Animador);
+            await CrearUsuarioAsync(users, "animador10@genba.test", password, "Iván", "Animador", "Key Animation", Roles.Animador);
+            await CrearUsuarioAsync(users, "animador11@genba.test", password, "Carmen", "Animador", "Inbetween", Roles.Animador);
         }
     }
 

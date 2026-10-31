@@ -1,0 +1,35 @@
+@model GenbaStudio.Models.ViewModels.UsuarioDeleteViewModel
+@{
+    ViewData["Title"] = "Eliminar usuario";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <h1 class="h3 mb-3">Eliminar usuario</h1>
+
+        @if (Model.TieneRelaciones)
+        {
+            <div class="alert alert-warning">
+                Este usuario tiene proyectos o asignaciones asociadas, por lo que no se puede eliminar.
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger">Esta acción no se puede deshacer.</div>
+        }
+
+        <dl class="row">
+            <dt class="col-sm-3">Nombre</dt><dd class="col-sm-9">@Model.NombreCompleto</dd>
+            <dt class="col-sm-3">Email</dt><dd class="col-sm-9">@Model.Email</dd>
+            <dt class="col-sm-3">Rol</dt><dd class="col-sm-9">@Model.Rol</dd>
+        </dl>
+
+        <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+            @if (!Model.TieneRelaciones)
+            {
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+            }
+            <a asp-action="Index" class="btn btn-link">Volver</a>
+        </form>
+    </div>
+</div>

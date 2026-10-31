@@ -1,6 +1,7 @@
 using GenbaStudio.Data;
 using GenbaStudio.Data.Seed;
 using GenbaStudio.Models.Entities;
+using GenbaStudio.Repositories;
 using GenbaStudio.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +22,8 @@ builder.Services.AddIdentity<Usuario, IdentityRole<int>>(o =>
 })
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders()
-.AddClaimsPrincipalFactory<UsuarioClaimsPrincipalFactory>();
+.AddClaimsPrincipalFactory<UsuarioClaimsPrincipalFactory>()
+.AddErrorDescriber<SpanishIdentityErrorDescriber>();
 
 builder.Services.ConfigureApplicationCookie(o =>
 {
@@ -32,6 +34,9 @@ builder.Services.ConfigureApplicationCookie(o =>
 });
 
 builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<ITipoTareaRepository, TipoTareaRepository>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

@@ -41,6 +41,9 @@ public class PerfilController : Controller
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> Index(PerfilViewModel vm)
     {
+        
+        // Actualizacion de un usuario
+        
         var user = await _users.GetUserAsync(User);
         if (user == null) return Challenge();
 

@@ -1,0 +1,19 @@
+@model GenbaStudio.Models.ViewModels.TipoTareaFormViewModel
+@{
+    ViewData["Title"] = "Nuevo tipo de tarea";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <h1 class="h3 mb-3">Nuevo tipo de tarea</h1>
+        <form asp-action="Create" method="post">
+            <partial name="_Form" model="Model" />
+            <button type="submit" class="btn btn-primary">Crear</button>
+            <a asp-action="Index" class="btn btn-link">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
