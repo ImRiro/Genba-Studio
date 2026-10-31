@@ -64,6 +64,10 @@ public class UsuarioRepository : IUsuarioRepository
 
         var total = await proyectado.CountAsync();
 
+        var totalPaginas = (int)Math.Ceiling(total / (double)pageSize);
+        if (page > totalPaginas) page = Math.Max(1, totalPaginas);
+        if (page < 1) page = 1;
+
         var items = await proyectado
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
