@@ -1,0 +1,64 @@
+@model GenbaStudio.Models.ViewModels.EscenaFormViewModel
+@using GenbaStudio.Models.Enums
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{
+    var esNueva = Model.Id == 0;
+    ViewData["Title"] = esNueva ? "Nueva escena" : "Editar escena";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <h1 class="h3 mb-1">@ViewData["Title"]</h1>
+        <div class="text-muted mb-3">Proyecto: @Model.ProyectoNombre</div>
+
+        <form asp-action="Guardar" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2"></div>
+            <input asp-for="Id" type="hidden" />
+            <input asp-for="ProyectoId" type="hidden" />
+
+            <div class="row">
+                <div class="col-sm-4 mb-3">
+                    <label asp-for="Numero" class="form-label"></label>
+                    <input asp-for="Numero" class="form-control" />
+                    <span asp-validation-for="Numero" class="text-danger"></span>
+                </div>
+                <div class="col-sm-4 mb-3">
+                    <label asp-for="DuracionSegundos" class="form-label"></label>
+                    <input asp-for="DuracionSegundos" class="form-control" />
+                    <span asp-validation-for="DuracionSegundos" class="text-danger"></span>
+                </div>
+                <div class="col-sm-4 mb-3">
+                    <label asp-for="Estado" class="form-label"></label>
+                    <select asp-for="Estado" class="form-select"
+                            asp-items="@(Enum.GetValues<EstadoEscena>().Select(e => new SelectListItem(Textos.De(e), e.ToString())))"></select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Descripcion" class="form-label"></label>
+                <textarea asp-for="Descripcion" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Storyboard" class="form-label"></label>
+                <input asp-for="Storyboard" type="file" class="form-control" accept=".jpg,.jpeg,.png,.webp,.pdf" />
+                <div class="form-text">
+                    JPG, PNG, WEBP o PDF, hasta 10 MB.
+                    @if (Model.TieneStoryboard)
+                    {
+                        <span>Ya tiene un storyboard (<a asp-action="Storyboard" asp-route-id="@Model.Id" target="_blank">verlo</a>); si subís otro, lo reemplaza.</span>
+                    }
+                </div>
+                <span asp-validation-for="Storyboard" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a asp-action="Index" asp-route-proyectoId="@Model.ProyectoId" class="btn btn-link">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

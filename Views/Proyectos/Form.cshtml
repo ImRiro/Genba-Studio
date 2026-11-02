@@ -1,0 +1,53 @@
+@model GenbaStudio.Models.ViewModels.ProyectoFormViewModel
+@using GenbaStudio.Models.Enums
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{
+    var esNuevo = Model.Id == 0;
+    ViewData["Title"] = esNuevo ? "Nuevo proyecto" : "Editar proyecto";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <h1 class="h3 mb-3">@ViewData["Title"]</h1>
+
+        <form asp-action="Guardar" method="post">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2"></div>
+            <input asp-for="Id" type="hidden" />
+
+            <div class="mb-3">
+                <label asp-for="Nombre" class="form-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Descripcion" class="form-label"></label>
+                <textarea asp-for="Descripcion" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 mb-3">
+                    <label asp-for="FechaInicio" class="form-label"></label>
+                    <input asp-for="FechaInicio" type="date" class="form-control" />
+                    <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 mb-3">
+                    <label asp-for="FechaEntrega" class="form-label"></label>
+                    <input asp-for="FechaEntrega" type="date" class="form-control" />
+                    <span asp-validation-for="FechaEntrega" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Estado" class="form-label"></label>
+                <select asp-for="Estado" class="form-select"
+                        asp-items="@(Enum.GetValues<EstadoProyecto>().Select(e => new SelectListItem(Textos.De(e), e.ToString())))"></select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a asp-action="Index" class="btn btn-link">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
