@@ -124,7 +124,7 @@ public class EscenasController : Controller
             if (rutaNueva != null) e.RutaStoryboard = rutaNueva;
             await _escenas.UpdateAsync(e);
 
-            if (rutaNueva != null) _files.EliminarPrivado(rutaVieja);   // se reemplaza el archivo anterior
+            if (rutaNueva != null) _files.EliminarPrivado(rutaVieja);
             TempData["Ok"] = "Escena actualizada.";
         }
 

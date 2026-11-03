@@ -6,13 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GenbaStudio.Repositories;
 
-public interface IProyectoRepository : IRepository<Proyecto>
-{
-    Task<PagedResult<Proyecto>> GetPaginaAsync(int directorId, string? buscar, EstadoProyecto? estado, int page, int pageSize);
-    Task<Proyecto?> GetDelDirectorAsync(int id, int directorId);
-    Task<bool> TieneAsignacionesAsync(int proyectoId);
-}
-
 public class ProyectoRepository : Repository<Proyecto>, IProyectoRepository
 {
     public ProyectoRepository(AppDbContext context) : base(context) { }

@@ -37,6 +37,8 @@ builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<ITipoTareaRepository, TipoTareaRepository>();
+builder.Services.AddScoped<IProyectoRepository, ProyectoRepository>();
+builder.Services.AddScoped<IEscenaRepository, EscenaRepository>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

@@ -31,7 +31,8 @@
                         }
                         @if (User.IsInRole(Roles.Director))
                         {
-                            @* TODO: Proyectos, Escenas, Asignaciones, Revisión *@
+                            @* TODO: Escenas, Asignaciones, Revisión *@
+                            <li class="nav-item"><a class="nav-link" asp-controller="Proyectos" asp-action="Index">Mis Proyectos</a></li>
                         }
                         @if (User.IsInRole(Roles.Animador))
                         {
