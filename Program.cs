@@ -1,10 +1,14 @@
+using System.Text;
+using System.Text.Json.Serialization;
 using GenbaStudio.Data;
 using GenbaStudio.Data.Seed;
 using GenbaStudio.Models.Entities;
 using GenbaStudio.Repositories;
 using GenbaStudio.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,7 +43,30 @@ builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<ITipoTareaRepository, TipoTareaRepository>();
 builder.Services.AddScoped<IProyectoRepository, ProyectoRepository>();
 builder.Services.AddScoped<IEscenaRepository, EscenaRepository>();
-builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IJwtService, JwtService>();
+
+var jwtKey = builder.Configuration["Jwt:Key"]
+    ?? throw new InvalidOperationException("Falta Jwt:Key (user-secrets).");
+
+builder.Services.AddAuthentication().AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, o =>
+{
+    o.MapInboundClaims = false;
+    o.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero,
+        NameClaimType = "name",
+        RoleClaimType = "role"
+    };
+});
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 var app = builder.Build();
 
