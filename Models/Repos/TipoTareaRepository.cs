@@ -4,13 +4,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GenbaStudio.Repositories;
 
-public interface ITipoTareaRepository : IRepository<TipoTarea>
-{
-    Task<List<TipoTarea>> GetAllAsync();
-    Task<bool> ExisteNombreAsync(string nombre, int? excluirId = null);
-    Task<bool> TieneAsignacionesAsync(int id);
-}
-
 public class TipoTareaRepository : Repository<TipoTarea>, ITipoTareaRepository
 {
     public TipoTareaRepository(AppDbContext context) : base(context) { }
