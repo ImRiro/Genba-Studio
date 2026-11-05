@@ -37,7 +37,7 @@ Busca administrar mejor los proyectos y mantener un registro claro del proceso d
     </tr>
     <tr>
       <td><b>4. ABM en Vue.js + AJAX</b></td>
-      <td> ✅ Cumplido </td>
+      <td> ✅ Cumplido, Vista de asignaciones desde el director </td>
       <td><a href="wwwroot/js/asignaciones.js">VueComponent.js</a></td>
       <td>Video corto / GIF del ABM dinámico</td>
     </tr>
@@ -49,13 +49,13 @@ Busca administrar mejor los proyectos y mantener un registro claro del proceso d
     </tr>
     <tr>
       <td><b>6. Selección Asíncrona (AJAX)</b></td>
-      <td> ✅ Cumplido, se realiza al seleccionar Animador y Escena en la vista de asignaciones</td>
+      <td> ✅ Cumplido, se realiza al seleccionar Animador y Escena en la vista de asignaciones desde el director</td>
       <td><a href="views/Asignaciones/Index.cshtml#L36">Asignaciones/Index.cshtml#L36</a> , <a href="controllers/BusquedasApiController.cs">BusquedasApiController.cs</a></td>
       <td>GIF buscando entidades en desplegable</td>
     </tr>
     <tr>
       <td><b>7. Web API + JWT</b></td>
-      <td>✅ Cumplido, se utiliza la API en la vista Vue de asignaciones</td>
+      <td>✅ Cumplido, se utiliza la API en la vista Vue de asignaciones desde el director</td>
       <td><a href="Controllers/AuthApiController.cs">AuthApiController.cs</a> , <a href="Controllers/AsignacionesApiController.cs"></a></td>
       <td><img src="Docs/Postman.webp" alt="Perfil" width="500"></td>
     </tr>
@@ -106,11 +106,15 @@ Busca administrar mejor los proyectos y mantener un registro claro del proceso d
   </thead>
   <tbody>
     <tr>
+      <td>Admin@genba.test (Email elegido en user-secrets)</td>
+      <td>Admin123% (Clave elegida en user-secrets)</td>
+    </tr>
+    <tr>
       <td>Director@genba.test</td>
       <td>Admin123% (Clave elegida en user-secrets)</td>
     </tr>
     <tr>
-      <td>Animador1@genba.test</td>
+      <td>Animador1@genba.test (Animador1 hasta Animador11)</td>
       <td>Admin123% (Clave elegida en user-secrets)</td>
     </tr>
   </tbody>
