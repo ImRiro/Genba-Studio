@@ -1,0 +1,155 @@
+@{
+    ViewData["Title"] = "Asignaciones";
+}
+
+<style>
+    [v-cloak] { display: none; }
+    .lista-opciones { position: absolute; z-index: 1000; width: 100%; max-height: 260px; overflow-y: auto; }
+</style>
+
+<div id="app" v-cloak>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Asignaciones</h1>
+        <button class="btn btn-primary" v-if="!mostrarForm" v-on:click="nuevo">Nueva asignación</button>
+    </div>
+
+    <div v-if="mensaje" class="alert alert-success alert-dismissible">
+        {{ mensaje }}
+        <button type="button" class="btn-close" v-on:click="mensaje = ''"></button>
+    </div>
+    <div v-if="errorGeneral" class="alert alert-danger alert-dismissible">
+        {{ errorGeneral }}
+        <button type="button" class="btn-close" v-on:click="errorGeneral = ''"></button>
+    </div>
+
+    <div v-if="mostrarForm" class="card mb-4">
+        <div class="card-header">{{ editandoId ? 'Editar asignación' : 'Nueva asignación' }}</div>
+        <div class="card-body">
+
+            <div v-if="errores.length" class="alert alert-danger">
+                <ul class="mb-0">
+                    <li v-for="e in errores">{{ e }}</li>
+                </ul>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Escena</label>
+                    <buscador-async v-bind:key="'escena' + claveForm"
+                                    url="/api/busquedas/escenas"
+                                    placeholder="Proyecto, número o descripción"
+                                    v-bind:seleccionado="escenaSel"
+                                    v-on:elegir="escenaSel = $event"></buscador-async>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Animador</label>
+                    <buscador-async v-bind:key="'animador' + claveForm"
+                                    url="/api/busquedas/animadores"
+                                    placeholder="Nombre, apellido o especialidad"
+                                    v-bind:seleccionado="animadorSel"
+                                    v-on:elegir="animadorSel = $event"></buscador-async>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Tipo de tarea</label>
+                    <select class="form-select" v-model.number="form.tipoTareaId">
+                        <option v-bind:value="0" disabled>Seleccione...</option>
+                        <option v-for="t in tipos" v-bind:key="t.id" v-bind:value="t.id">{{ t.texto }}</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Fecha límite</label>
+                    <input type="date" class="form-control" v-model="form.fechaLimite" />
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Prioridad</label>
+                    <select class="form-select" v-model.number="form.prioridad">
+                        <option v-bind:value="0">Baja</option>
+                        <option v-bind:value="1">Media</option>
+                        <option v-bind:value="2">Alta</option>
+                    </select>
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label">Observaciones</label>
+                    <textarea class="form-control" rows="2" v-model="form.observaciones"></textarea>
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <button class="btn btn-primary me-2" v-bind:disabled="guardando" v-on:click="guardar">Guardar</button>
+                <button class="btn btn-outline-secondary" v-on:click="cancelar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-2 mb-3">
+        <div class="col-md-6">
+            <input type="text" class="form-control" placeholder="Buscar por proyecto, tarea o animador"
+                   v-model="filtroTexto" v-on:keyup.enter="buscar" />
+        </div>
+        <div class="col-md-3">
+            <select class="form-select" v-model="filtroEstado" v-on:change="buscar">
+                <option value="">Todos los estados</option>
+                <option value="Pendiente">Pendiente</option>
+                <option value="EnProgreso">En progreso</option>
+                <option value="EnRevision">En revisión</option>
+                <option value="Aprobada">Aprobada</option>
+                <option value="ConCorrecciones">Con correcciones</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-outline-primary" v-on:click="buscar">Buscar</button>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Escena</th>
+                    <th>Tarea</th>
+                    <th>Animador</th>
+                    <th>Fecha límite</th>
+                    <th>Prioridad</th>
+                    <th>Estado</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-if="!cargando && items.length === 0">
+                    <td colspan="7" class="text-center text-muted">No hay asignaciones.</td>
+                </tr>
+                <tr v-for="a in items" v-bind:key="a.id">
+                    <td>{{ a.proyecto }} — Escena {{ a.escenaNumero }}</td>
+                    <td>{{ a.tipoTarea }}</td>
+                    <td>{{ a.animador }}</td>
+                    <td>{{ formatoFecha(a.fechaLimite) }}</td>
+                    <td><span class="badge" v-bind:class="clasePrioridad(a.prioridad)">{{ textoPrioridad(a.prioridad) }}</span></td>
+                    <td><span class="badge" v-bind:class="claseEstado(a.estado)">{{ textoEstado(a.estado) }}</span></td>
+                    <td class="text-end">
+                        <button class="btn btn-sm btn-outline-primary me-1" v-if="puedeEditar(a)" v-on:click="editar(a)">Editar</button>
+                        <button class="btn btn-sm btn-outline-danger" v-on:click="eliminar(a)">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div v-if="totalCount > 0" class="d-flex justify-content-between align-items-center">
+        <span class="text-muted">Página {{ page }} de {{ totalPages }} ({{ totalCount }} en total)</span>
+        <div>
+            <button class="btn btn-outline-secondary btn-sm me-1" v-bind:disabled="page <= 1" v-on:click="irAPagina(page - 1)">Anterior</button>
+            <button class="btn btn-outline-secondary btn-sm" v-bind:disabled="page >= totalPages" v-on:click="irAPagina(page + 1)">Siguiente</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.4.38/dist/vue.global.prod.js"></script>
+    <script src="~/js/asignaciones.js" asp-append-version="true"></script>
+}
