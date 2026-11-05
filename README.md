@@ -27,7 +27,7 @@ Busca administrar mejor los proyectos y mantener un registro claro del proceso d
       <td><b>2. Login, Roles y Avatar</b></td>
       <td>✅ Cumplido, se utilizo Identity para el manejo de usuarios, roles y autorizacion</td>
       <td><a href="Controllers/AccountController.cs">AccountController.cs</a></td>
-      <td>Captura de pantalla de perfil con avatar</td>
+      <td><img src="Docs/Perfil_Avatar.png" alt="Perfil" width="500"></td>
     </tr>
     <tr>
       <td><b>3. Manejo de Archivos (Extra)</b></td>
@@ -37,27 +37,27 @@ Busca administrar mejor los proyectos y mantener un registro claro del proceso d
     </tr>
     <tr>
       <td><b>4. ABM en Vue.js + AJAX</b></td>
-      <td> Pendiente </td>
-      <td><a href="URL">VueComponent.js</a></td>
+      <td> ✅ Cumplido </td>
+      <td><a href="wwwroot/js/asignaciones.js">VueComponent.js</a></td>
       <td>Video corto / GIF del ABM dinámico</td>
     </tr>
     <tr>
       <td><b>5. Paginado por Servidor</b></td>
       <td>✅ Cumplido</td>
-      <td><a href="URL">Paginador.cs</a></td>
-      <td>Captura del inspector de red enviando page=2</td>
+      <td><a href="models/PagedResult.cs">PagedResult.cs</a> , <a href="models/Repos/EscenaRepository.cs#L12">EscenaRepository.cs/GetPaginaAsync()</a></td>
+      <td><img src="Docs/Paginado.png" alt="Perfil" width="500"></td>
     </tr>
     <tr>
       <td><b>6. Selección Asíncrona (AJAX)</b></td>
-      <td> Pendiente </td>
-      <td><a href="URL">BuscarClientes.cshtml</a></td>
+      <td> ✅ Cumplido, se realiza al seleccionar Animador y Escena en la vista de asignaciones</td>
+      <td><a href="views/Asignaciones/Index.cshtml#L36">Asignaciones/Index.cshtml#L36</a> , <a href="controllers/BusquedasApiController.cs">BusquedasApiController.cs</a></td>
       <td>GIF buscando entidades en desplegable</td>
     </tr>
     <tr>
       <td><b>7. Web API + JWT</b></td>
-      <td>✅ Cumplido</td>
-      <td><a href="URL">ApiController.cs</a></td>
-      <td>Captura de Postman con Bearer Token</td>
+      <td>✅ Cumplido, se utiliza la API en la vista Vue de asignaciones</td>
+      <td><a href="Controllers/AuthApiController.cs">AuthApiController.cs</a> , <a href="Controllers/AsignacionesApiController.cs"></a></td>
+      <td><img src="Docs/Postman.webp" alt="Perfil" width="500"></td>
     </tr>
   </tbody>
 </table>
@@ -82,11 +82,11 @@ Busca administrar mejor los proyectos y mantener un registro claro del proceso d
 
   `dotnet user-secrets set "ConnectionStrings:Default" "Server=localhost;Port=3306;Database=BASEDEDATOS;User=USER;Password=TU_CLAVE"` (asegurarse de cambiar los valores segun tu base de datos)
 
-    ### Para el seed:
+    ### Para el seed (Recomendado mantener los valores proporcionados):
 
   `dotnet user-secrets set "Seed:AdminEmail" "admin@genba.test"` (Es el email del usuario admin)
 
-  `dotnet user-secrets set "Seed:Password" "UnaClaveFuerte123!"` (Sera usada para todos los usuarios creados por el seeder)
+  `dotnet user-secrets set "Seed:Password" "Admin123%"` (Sera usada para todos los usuarios creados por el seeder)
 
   `dotnet user-secrets set "Seed:DemoUsers" "true"` (False no corre el seeder)
 
@@ -94,3 +94,26 @@ Busca administrar mejor los proyectos y mantener un registro claro del proceso d
 - Si no se tiene instalada previamente, se debe instalar la siguiente herramienta: `dotnet tool install --global dotnet-ef`
 - Correr el comando: `dotnet ef database update`
 - Y eso deberia ser suficiente!
+
+## Usuarios Generados por Seed
+
+<table>
+  <thead>
+    <tr>
+      <th>email</th>
+      <th>contraseña</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Director@genba.test</td>
+      <td>Admin123% (Clave elegida en user-secrets)</td>
+    </tr>
+    <tr>
+      <td>Animador1@genba.test</td>
+      <td>Admin123% (Clave elegida en user-secrets)</td>
+    </tr>
+  </tbody>
+</table>
+
+  
