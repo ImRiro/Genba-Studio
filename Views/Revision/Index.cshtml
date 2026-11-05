@@ -1,0 +1,64 @@
+@model GenbaStudio.Models.Common.PagedResult<GenbaStudio.Models.ViewModels.EntregaItemViewModel>
+@{
+    ViewData["Title"] = "Entregas por revisar";
+}
+
+<h1 class="h3 mb-3">Entregas por revisar</h1>
+
+@if (TempData["Ok"] != null)
+{
+    <div class="alert alert-success">@TempData["Ok"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<div class="table-responsive">
+    <table class="table table-hover align-middle">
+        <thead>
+            <tr>
+                <th>Escena</th>
+                <th>Tarea</th>
+                <th>Animador</th>
+                <th>Versión</th>
+                <th>Subida</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Items.Any())
+            {
+                <tr><td colspan="6" class="text-center text-muted">No hay entregas pendientes de revisión.</td></tr>
+            }
+            @foreach (var e in Model.Items)
+            {
+                <tr>
+                    <td>@e.Proyecto — Escena @e.EscenaNumero</td>
+                    <td>@e.TipoTarea</td>
+                    <td>@e.Animador</td>
+                    <td>v@e.Version</td>
+                    <td>@e.FechaSubida.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-primary" asp-action="Revisar" asp-route-id="@e.Id">Revisar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (Model.TotalPages > 1)
+{
+    <nav>
+        <ul class="pagination">
+            <li class="page-item @(Model.Page <= 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(Model.Page - 1)">Anterior</a>
+            </li>
+            <li class="page-item disabled"><span class="page-link">Página @Model.Page de @Model.TotalPages</span></li>
+            <li class="page-item @(Model.Page >= Model.TotalPages ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(Model.Page + 1)">Siguiente</a>
+            </li>
+        </ul>
+    </nav>
+}

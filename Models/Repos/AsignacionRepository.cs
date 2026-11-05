@@ -162,4 +162,10 @@ public class AsignacionRepository : Repository<Asignacion>, IAsignacionRepositor
             Detalle = d.Descripcion
         }).ToList();
     }
+
+    public Task<Asignacion?> GetDelAnimadorAsync(int id, int animadorId) =>
+    Context.Asignaciones.FirstOrDefaultAsync(a => a.Id == id && a.AnimadorId == animadorId);
+
+    public Task<bool> AnimadorTieneEscenaAsync(int animadorId, int escenaId) =>
+    Context.Asignaciones.AnyAsync(a => a.AnimadorId == animadorId && a.EscenaId == escenaId);
 }

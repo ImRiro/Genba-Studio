@@ -10,10 +10,13 @@ public class ArchivoInvalidoException : Exception
 public record FileRules(string[] Extensiones, long MaxBytes, bool EsImagen = false)
 {
     public static readonly FileRules Imagen =
-        new(new[] { ".jpg", ".jpeg", ".png", ".webp" }, 2 * 1024 * 1024, EsImagen: true);
+    new([".jpg", ".jpeg", ".png", ".webp"], 2 * 1024 * 1024, EsImagen: true);
 
     public static readonly FileRules Storyboard =
-        new(new[] { ".jpg", ".jpeg", ".png", ".webp", ".pdf" }, 10 * 1024 * 1024);
+    new([".jpg", ".jpeg", ".png", ".webp", ".pdf"], 10 * 1024 * 1024);
+
+    public static readonly FileRules Entrega =
+    new([".psd", ".zip", ".mp4", ".jpg", ".jpeg", ".png", ".webp"], 100L * 1024 * 1024);
 }
 
 public interface IFileService
@@ -100,12 +103,12 @@ public class FileService : IFileService
             throw new ArchivoInvalidoException(
                 $"Formato no permitido. Se aceptan: {string.Join(", ", reglas.Extensiones)}.");
 
-        if (reglas.EsImagen && !await FirmaImagenValidaAsync(file, ext))
-            throw new ArchivoInvalidoException("El archivo no es una imagen válida.");
+        if (!await FirmaValidaAsync(file, ext))
+            throw new ArchivoInvalidoException("El contenido del archivo no coincide con su extensión.");
     }
 
     // Verifica los primeros bytes (firma) para que un .exe renombrado a .png no pase. (Idea no mia, sacada de stackoverflow al investigar y agregada como chiche)
-    private static async Task<bool> FirmaImagenValidaAsync(IFormFile file, string ext)
+    private static async Task<bool> FirmaValidaAsync(IFormFile file, string ext)
     {
         var h = new byte[12];
         await using var s = file.OpenReadStream();
@@ -118,6 +121,9 @@ public class FileService : IFileService
             ".png" => h[0] == 0x89 && h[1] == 0x50 && h[2] == 0x4E && h[3] == 0x47,
             ".webp" => h[0] == 'R' && h[1] == 'I' && h[2] == 'F' && h[3] == 'F'
                        && h[8] == 'W' && h[9] == 'E' && h[10] == 'B' && h[11] == 'P',
+            ".psd" => h[0] == '8' && h[1] == 'B' && h[2] == 'P' && h[3] == 'S',
+            ".zip" => h[0] == 'P' && h[1] == 'K' && h[2] == 3 && h[3] == 4,
+            ".mp4" => h[4] == 'f' && h[5] == 't' && h[6] == 'y' && h[7] == 'p',
             _ => true
         };
     }

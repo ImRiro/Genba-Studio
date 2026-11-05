@@ -15,4 +15,6 @@ public interface IAsignacionRepository : IRepository<Asignacion>
     Task<bool> ExisteAnimadorAsync(int usuarioId);
     Task<List<OpcionDto>> BuscarAnimadoresAsync(string? q);
     Task<List<OpcionDto>> BuscarEscenasAsync(int directorId, string? q, int? proyectoId);
+    Task<Asignacion?> GetDelAnimadorAsync(int id, int animadorId);
+    Task<bool> AnimadorTieneEscenaAsync(int animadorId, int escenaId);
 }

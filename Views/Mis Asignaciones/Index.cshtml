@@ -1,0 +1,84 @@
+@using GenbaStudio.Models.Enums
+@model GenbaStudio.Models.Common.PagedResult<GenbaStudio.Models.Dtos.AsignacionDto>
+@{
+    ViewData["Title"] = "Mis asignaciones";
+    var estado = (EstadoAsignacion?)ViewData["estado"];
+}
+
+<h1 class="h3 mb-3">Mis asignaciones</h1>
+
+@if (TempData["Ok"] != null)
+{
+    <div class="alert alert-success">@TempData["Ok"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-4">
+        <select name="estado" class="form-select" onchange="this.form.submit()">
+            <option value="">Todos los estados</option>
+            @foreach (var e in Enum.GetValues<EstadoAsignacion>())
+            {
+                <option value="@e" selected="@(estado == e)">@Textos.De(e)</option>
+            }
+        </select>
+    </div>
+</form>
+
+<div class="table-responsive">
+    <table class="table table-hover align-middle">
+        <thead>
+            <tr>
+                <th>Escena</th>
+                <th>Tarea</th>
+                <th>Fecha límite</th>
+                <th>Prioridad</th>
+                <th>Estado</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Items.Any())
+            {
+                <tr><td colspan="6" class="text-center text-muted">No tenés asignaciones.</td></tr>
+            }
+            @foreach (var a in Model.Items)
+            {
+                <tr>
+                    <td>@a.Proyecto — Escena @a.EscenaNumero</td>
+                    <td>@a.TipoTarea</td>
+                    <td>
+                        @a.FechaLimite.ToString("dd/MM/yyyy")
+                        @if (a.Vencida)
+                        {
+                            <span class="badge bg-danger">Vencida</span>
+                        }
+                    </td>
+                    <td>@Textos.De(a.Prioridad)</td>
+                    <td><span class="badge @Textos.Clase(a.Estado)">@Textos.De(a.Estado)</span></td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-primary" asp-action="Detalle" asp-route-id="@a.Id">Ver</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (Model.TotalPages > 1)
+{
+    <nav>
+        <ul class="pagination">
+            <li class="page-item @(Model.Page <= 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(Model.Page - 1)" asp-route-estado="@estado">Anterior</a>
+            </li>
+            <li class="page-item disabled"><span class="page-link">Página @Model.Page de @Model.TotalPages</span></li>
+            <li class="page-item @(Model.Page >= Model.TotalPages ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(Model.Page + 1)" asp-route-estado="@estado">Siguiente</a>
+            </li>
+        </ul>
+    </nav>
+}

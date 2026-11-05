@@ -1,0 +1,75 @@
+@using GenbaStudio.Models.Enums
+@model GenbaStudio.Models.ViewModels.RevisarEntregaViewModel
+@{
+    ViewData["Title"] = "Revisar entrega";
+    var a = Model.Asignacion;
+}
+
+<h1 class="h3 mb-3">Revisión: @a.TipoTarea — @a.Proyecto, escena @a.EscenaNumero</h1>
+
+@if (TempData["Ok"] != null)
+{
+    <div class="alert alert-success">@TempData["Ok"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<p>
+    Animador: <strong>@a.Animador</strong> ·
+    Fecha límite: @a.FechaLimite.ToString("dd/MM/yyyy") ·
+    Estado: <span class="badge @Textos.Clase(a.Estado)">@Textos.De(a.Estado)</span>
+</p>
+
+<h2 class="h5">Versiones entregadas</h2>
+<div class="table-responsive mb-4">
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th>Versión</th>
+                <th>Archivo</th>
+                <th>Subida</th>
+                <th>Comentario del animador</th>
+                <th>Revisión</th>
+                <th>Feedback</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var h in Model.Historial)
+            {
+                <tr class="@(h.Id == Model.EntregaId ? "table-primary" : "")">
+                    <td>v@h.Version</td>
+                    <td><a asp-controller="Archivos" asp-action="Entrega" asp-route-id="@h.Id">@h.NombreOriginal</a></td>
+                    <td>@h.FechaSubida.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@h.ComentarioAnimador</td>
+                    <td><span class="badge @Textos.Clase(h.EstadoRevision)">@Textos.De(h.EstadoRevision)</span></td>
+                    <td>@h.FeedbackDirector</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (Model.PuedeRevisar)
+{
+    <div class="card mb-3">
+        <div class="card-header">Tu revisión de la entrega marcada</div>
+        <div class="card-body">
+            <form asp-action="Revisar" asp-route-id="@Model.EntregaId" method="post">
+                <div class="mb-3">
+                    <label class="form-label">Feedback (obligatorio para pedir correcciones)</label>
+                    <textarea name="feedback" class="form-control" rows="4" maxlength="2000">@TempData["FeedbackBorrador"]</textarea>
+                </div>
+                <button type="submit" name="decision" value="aprobar" class="btn btn-success me-2">Aprobar</button>
+                <button type="submit" name="decision" value="correcciones" class="btn btn-warning">Pedir correcciones</button>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-secondary">Esta entrega ya fue revisada.</div>
+}
+
+<a asp-action="Index" class="btn btn-link">Volver a la lista</a>

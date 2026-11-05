@@ -68,6 +68,7 @@ builder.Services.AddScoped<ITipoTareaRepository, TipoTareaRepository>();
 builder.Services.AddScoped<IProyectoRepository, ProyectoRepository>();
 builder.Services.AddScoped<IEscenaRepository, EscenaRepository>();
 builder.Services.AddScoped<IAsignacionRepository, AsignacionRepository>();
+builder.Services.AddScoped<IEntregaRepository, EntregaRepository>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 
 var jwtKey = builder.Configuration["Jwt:Key"]

@@ -33,10 +33,11 @@
                         {
                             <li class="nav-item"><a class="nav-link" asp-controller="Proyectos" asp-action="Index">Mis Proyectos</a></li>
                             <li class="nav-item"><a class="nav-link" asp-controller="Asignaciones" asp-action="Index">Asignaciones</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Revision" asp-action="Index">Revisión</a></li>
                         }
                         @if (User.IsInRole(Roles.Animador))
                         {
-                            @* TODO: Mis asignaciones *@
+                            <li class="nav-item"><a class="nav-link" asp-controller="MisAsignaciones" asp-action="Index">Mis asignaciones</a></li>
                         }
                     </ul>
                 </div>
