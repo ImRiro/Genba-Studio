@@ -33,31 +33,31 @@ Busca administrar mejor los proyectos y mantener un registro claro del proceso d
       <td><b>3. Manejo de Archivos (Extra)</b></td>
       <td>✅ Cumplido, Se sube una imagen de storyboard al crear una escena y en las entregas del animador</td>
       <td><a href="Controllers/EscenasController.cs#L86">EscenasController.cs#L86</a></td>
-      <td>Video corto / GIF mostrando subida de comprobante</td>
+      <td><img src="Docs/Subida.gif" alt="Subida" width="500"></td>
     </tr>
     <tr>
       <td><b>4. ABM en Vue.js + AJAX</b></td>
       <td> ✅ Cumplido, Vista de asignaciones desde el director </td>
-      <td><a href="wwwroot/js/asignaciones.js">VueComponent.js</a></td>
-      <td>Video corto / GIF del ABM dinámico</td>
+      <td><a href="wwwroot/js/asignaciones.js">Asignaciones.js</a></td>
+      <td><img src="Docs/Vue.gif" alt="Vue" width="500"></td>
     </tr>
     <tr>
       <td><b>5. Paginado por Servidor</b></td>
       <td>✅ Cumplido</td>
       <td><a href="models/PagedResult.cs">PagedResult.cs</a> , <a href="models/Repos/EscenaRepository.cs#L12">EscenaRepository.cs/GetPaginaAsync()</a></td>
-      <td><img src="Docs/Paginado.png" alt="Perfil" width="500"></td>
+      <td><img src="Docs/Paginado.png" alt="Paginado" width="500"></td>
     </tr>
     <tr>
       <td><b>6. Selección Asíncrona (AJAX)</b></td>
       <td> ✅ Cumplido, se realiza al seleccionar Animador y Escena en la vista de asignaciones desde el director</td>
-      <td><a href="views/Asignaciones/Index.cshtml#L36">Asignaciones/Index.cshtml#L36</a> , <a href="controllers/BusquedasApiController.cs">BusquedasApiController.cs</a></td>
-      <td>GIF buscando entidades en desplegable</td>
+      <td><a href="wwwroot/js/asignaciones.js#L64">Asignaciones.js/BuscadorAsync</a> , <a href="controllers/BusquedasApiController.cs">BusquedasApiController.cs</a></td>
+      <td><img src="Docs/Select.gif" alt="Select" width="500"></td>
     </tr>
     <tr>
       <td><b>7. Web API + JWT</b></td>
       <td>✅ Cumplido, se utiliza la API en la vista Vue de asignaciones desde el director</td>
       <td><a href="Controllers/AuthApiController.cs">AuthApiController.cs</a> , <a href="Controllers/AsignacionesApiController.cs"></a></td>
-      <td><img src="Docs/Postman.webp" alt="Perfil" width="500"></td>
+      <td><img src="Docs/Postman.webp" alt="API" width="500"></td>
     </tr>
   </tbody>
 </table>
