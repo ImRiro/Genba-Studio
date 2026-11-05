@@ -106,11 +106,15 @@ Busca administrar mejor los proyectos y mantener un registro claro del proceso d
   </thead>
   <tbody>
     <tr>
+      <td>Admin@genba.test (Email elegido en user-secrets)</td>
+      <td>Admin123% (Clave elegida en user-secrets)</td>
+    </tr>
+    <tr>
       <td>Director@genba.test</td>
       <td>Admin123% (Clave elegida en user-secrets)</td>
     </tr>
     <tr>
-      <td>Animador1@genba.test</td>
+      <td>Animador1@genba.test (Animador1 hasta Animador11)</td>
       <td>Admin123% (Clave elegida en user-secrets)</td>
     </tr>
   </tbody>
