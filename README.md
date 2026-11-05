@@ -31,7 +31,7 @@ Busca administrar mejor los proyectos y mantener un registro claro del proceso d
     </tr>
     <tr>
       <td><b>3. Manejo de Archivos (Extra)</b></td>
-      <td>✅ Cumplido, Se sube una imagen de storyboard al crear una escena</td>
+      <td>✅ Cumplido, Se sube una imagen de storyboard al crear una escena y en las entregas del animador</td>
       <td><a href="Controllers/EscenasController.cs#L86">EscenasController.cs#L86</a></td>
       <td>Video corto / GIF mostrando subida de comprobante</td>
     </tr>
